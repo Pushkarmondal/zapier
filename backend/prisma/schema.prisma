@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -25,6 +24,7 @@ model Zap {
   id          String   @id @default(uuid())
   triggeredId String
   trigger     Trigger?
+  action      Action[]
 }
 
 model Trigger {
@@ -33,6 +33,20 @@ model Trigger {
   triggerId String
   type      AvailableTrigger @relation(fields: [triggerId], references: [id])
   zap       Zap              @relation(fields: [zapId], references: [id])
+}
+
+model Action {
+  id       String          @id @default(uuid())
+  zapId    String          @unique
+  zap      Zap             @relation(fields: [zapId], references: [id])
+  actionId String
+  type     AvailableAction @relation(fields: [actionId], references: [id])
+}
+
+model AvailableAction {
+  id     String   @id @default(uuid())
+  name   String
+  action Action[]
 }
 
 model AvailableTrigger {
