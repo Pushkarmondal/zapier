@@ -12,5 +12,10 @@ export const loginSchema = z.object({
 })
 
 export const createZapSchema = z.object({
-    
+    availableTriggerId: z.string(),
+    triggerMetaData: z.any().optional(),
+    actions: z.array(z.object({
+        availableActionId: z.string(),
+        actionMetaData: z.any().optional()
+    }))
 })
