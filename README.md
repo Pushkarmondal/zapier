@@ -6,7 +6,8 @@ A distributed system for processing and managing Zapier events using Kafka and P
 
 ## Project Structure
 
-- `backend/`: Main API server that receives and processes webhook events
+- `primary_backend/`: Main backend service with REST API endpoints for managing Zaps
+- `backend/`: Legacy API server (being phased out)
 - `processor/`: Service that processes events from the database and publishes them to Kafka
 - `outbox_processor/`: Service that consumes events from Kafka and processes them
 
@@ -29,6 +30,10 @@ A distributed system for processing and managing Zapier events using Kafka and P
 
 2. **Install dependencies for each service**
    ```bash
+   # Main backend service
+   cd primary_backend && bun install && cd ..
+   
+   # Legacy services
    cd backend && bun install && cd ..
    cd processor && bun install && cd ..
    cd outbox_processor && bun install && cd ..
@@ -36,6 +41,12 @@ A distributed system for processing and managing Zapier events using Kafka and P
 
 3. **Set up environment variables**
    Create `.env` files in each service directory with the required environment variables.
+   Example for primary_backend:
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/zapier?schema=public"
+   JWT_SECRET="your-jwt-secret"
+   PORT=3001
+   ```
 
 4. **Start Docker services**
    ```bash
@@ -44,12 +55,18 @@ A distributed system for processing and managing Zapier events using Kafka and P
 
 5. **Run database migrations**
    ```bash
-   cd backend && npx prisma migrate dev && cd ..
+   cd primary_backend && npx prisma migrate dev && cd ..
    ```
 
 ## Running the Services
 
-### Backend API
+### Primary Backend (Recommended)
+```bash
+cd primary_backend
+bun run dev
+```
+
+### Legacy Backend API
 ```bash
 cd backend
 bun run dev
@@ -69,7 +86,14 @@ bun run dev
 
 ## Environment Variables
 
-### Backend
+### Primary Backend
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/zapier?schema=public"
+JWT_SECRET="your-jwt-secret"
+PORT=3001
+```
+
+### Legacy Backend
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/zapier?schema=public"
 PORT=3000
@@ -97,9 +121,15 @@ GROUP_ID="zapier-group"
 
 ## Architecture
 
-1. **Backend Service**
-   - Receives webhook events from Zapier
-   - Stores events in the database
+1. **Primary Backend Service**
+   - Main REST API for managing Zaps
+   - User authentication and authorization
+   - Zap management (create, read, update, delete)
+   - Webhook handling
+
+2. **Legacy Backend Service**
+   - Previous implementation being phased out
+   - Handles webhook events
    - Implements the outbox pattern for reliable event processing
 
 2. **Processor Service**
