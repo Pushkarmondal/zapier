@@ -12,27 +12,34 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault(); 
+        e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:3000/api/v1/auth/login`, 
+            const response = await axios.post(`http://localhost:3000/api/v1/auth/login`,
                 {
                     email,
                     password
                 }
             )
             console.log('Login successful:', response.data);
-            if (response.status === 200) { 
+            if (response.status === 200) {
+                const { token } = response.data;
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('token', token);
+                }
                 router.push('/dashboard');
             }
         } catch (error) {
             console.error('Login error:', error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Error details:', error.response.data);
+            }
         }
     }
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="absolute top-4 left-4">
-                <button 
+                <button
                     onClick={() => window.history.back()}
                     className="flex items-center text-gray-600 hover:text-gray-900 cursor-pointer"
                 >
@@ -95,7 +102,7 @@ export default function LoginPage() {
                         <div>
                             <PrimaryButton
                                 size="large"
-type="submit"
+                                type="submit"
                             >
                                 Sign in
                             </PrimaryButton>
