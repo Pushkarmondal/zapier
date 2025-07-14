@@ -16,7 +16,7 @@ app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
           metadata: metadata
         },
       });
-      const zaprunoutbox = await prisma.zapRunOutBox.create({
+      const zaprunoutbox = await prisma.zapRunOutbox.create({
         data: {
           zapRunId: zapruns.id,
         },

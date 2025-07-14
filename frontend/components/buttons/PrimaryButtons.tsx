@@ -2,19 +2,22 @@ import { ReactNode } from "react"
 
 interface PrimaryButtonProps {
     children: ReactNode;
-    onClick: () => void;
+    onClick?: () => void;
     size: "small" | "large";
     className?: string;
+    type?: "button" | "submit" | "reset";
 }
 
 export const PrimaryButton = ({
     children, 
     onClick, 
     size,
-    className = ''
+    className = '',
+    type = 'button'
 }: PrimaryButtonProps) => {
     return (
         <button 
+            type={type}
             onClick={onClick} 
             className={
                 `bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-full
