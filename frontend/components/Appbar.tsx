@@ -43,25 +43,18 @@ export const Appbar = () => {
                         <div className="flex items-center space-x-6">
                             <LinkButton 
                                 onClick={() => router.push("/login")}
-                                className="px-3 py-2"
+                                className="px-3 py-2 cursor-pointer"
                             >
                                 Log In
                             </LinkButton>
+                            <div className="ml-1 border-l border-gray-200 h-6"></div>
                             <PrimaryButton 
                                 onClick={() => router.push("/signup")} 
                                 size="small"
+                                className="cursor-pointer"
                             >
                                 Sign Up
                             </PrimaryButton>
-                        </div>
-                        <div className="ml-6 border-l border-gray-200 h-6"></div>
-                        <div className="flex items-center">
-                            <LinkButton 
-                                onClick={() => router.push("/contact")}
-                                className="px-3 py-2"
-                            >
-                                Contact Sales
-                            </LinkButton>
                         </div>
                     </div>
                 </div>

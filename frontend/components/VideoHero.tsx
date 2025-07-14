@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const VideoHero = () => {
@@ -17,23 +18,16 @@ const VideoHero = () => {
                     </p>
                 </div>
                 
-                <div className="mt-12 rounded-2xl overflow-hidden shadow-2xl max-w-4xl mx-auto bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200">
+                <div className="mt-12 rounded-xl overflow-hidden shadow-2xl max-w-4xl mx-auto bg-gradient-to-br border border-gray-100">
                     <div className="p-12 text-center">
-                        <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-orange-100 mb-6">
-                            <svg 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                className="h-12 w-12 text-orange-500" 
-                                fill="none" 
-                                viewBox="0 0 24 24" 
-                                stroke="currentColor"
-                            >
-                                <path 
-                                    strokeLinecap="round" 
-                                    strokeLinejoin="round" 
-                                    strokeWidth={1.5} 
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" 
-                                />
-                            </svg>
+                        <div className="mb-6">
+                            <Image
+                                src="/images/2002.i039.010_chatbot_messenger_ai_isometric_set-05.jpg" 
+                                alt="Automation demo" 
+                                className="mx-auto max-w-full h-auto max-h-72"
+                                width={300}
+                                height={300}
+                            />
                         </div>
                         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                             Automation Demo Coming Soon
