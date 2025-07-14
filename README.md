@@ -96,7 +96,7 @@ PORT=3001
 ### Legacy Backend
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/zapier?schema=public"
-PORT=3000
+PORT=3008
 ```
 
 ### Processor

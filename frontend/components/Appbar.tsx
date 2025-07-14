@@ -1,6 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import LinkButton from "./buttons/LinkButton";
 import { PrimaryButton } from "./buttons/PrimaryButtons";
 
@@ -30,6 +31,20 @@ const ZapierLogo = () => (
 
 export const Appbar = () => {
     const router = useRouter();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+        setIsLoggedIn(!!token);
+    }, []);
+
+    const handleLogout = () => {
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('token');
+            setIsLoggedIn(false);
+            router.push('/login');
+        }
+    };
     
     return (
         <div className="w-full">
@@ -40,22 +55,33 @@ export const Appbar = () => {
                         <span className="text-2xl font-bold text-gray-900">Zapier</span>
                     </div>
                     <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-6">
-                            <LinkButton 
-                                onClick={() => router.push("/login")}
-                                className="px-3 py-2 cursor-pointer"
-                            >
-                                Log In
-                            </LinkButton>
-                            <div className="ml-1 border-l border-gray-200 h-6"></div>
-                            <PrimaryButton 
-                                onClick={() => router.push("/signup")} 
-                                size="small"
-                                className="cursor-pointer"
-                            >
-                                Sign Up
-                            </PrimaryButton>
-                        </div>
+                        {isLoggedIn ? (
+                            <div className="flex items-center space-x-4">
+                                <button 
+                                    onClick={handleLogout}
+                                    className="text-sm cursor-pointer border border-slate-300 shadow-xl rounded-full font-medium text-slate-700 hover:text-slate-900 px-3 py-2"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="flex items-center space-x-6">
+                                <LinkButton 
+                                    onClick={() => router.push("/login")}
+                                    className="px-3 py-2 cursor-pointer"
+                                >
+                                    Log In
+                                </LinkButton>
+                                <div className="ml-1 border-l border-gray-200 h-6"></div>
+                                <PrimaryButton 
+                                    onClick={() => router.push("/signup")} 
+                                    size="small"
+                                    className="cursor-pointer"
+                                >
+                                    Sign Up
+                                </PrimaryButton>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

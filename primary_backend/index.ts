@@ -11,7 +11,7 @@ import type { any } from 'zod';
 
 const prisma = new PrismaClient();
 const app = express();
-const PORT = 3000;
+const PORT = 3008;
 
 app.use(express.json());
 app.use(cors());
