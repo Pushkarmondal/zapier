@@ -218,6 +218,25 @@ app.get('/api/v1/zaps/:zapId', authMiddleware, async(req: AuthenticatedRequest, 
     }
 })
 
+app.get('/api/v1/trigger/available', async(req, res) => {
+    try {
+        const availableTrigger = await prisma.availableTrigger.findMany({});
+        return res.status(200).json({availableTrigger})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}) 
+
+ app.get('/api/v1/action/available', async(req, res) => {
+    try {
+        const availableActions = await prisma.availableAction.findMany({});
+        return res.status(200).json({availableActions})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+})
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
