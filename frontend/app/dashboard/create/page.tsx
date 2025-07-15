@@ -112,10 +112,29 @@ export default function CreateZapPage() {
                                     id="triggerMetaData"
                                     type="text"
                                     value={formData.triggerMetaData}
-                                    onChange={(e) => setFormData({
-                                        ...formData,
-                                        triggerMetaData: e.target.value
-                                    })}
+                                    onChange={(e) => {
+                                        try {
+                                            const value = e.target.value;
+                                            // If empty string, store as empty string
+                                            if (value.trim() === '') {
+                                                setFormData({
+                                                    ...formData,
+                                                    triggerMetaData: ''
+                                                });
+                                                return;
+                                            }
+                                            
+                                            // Try to parse as JSON
+                                            JSON.parse(value);
+                                            setFormData({
+                                                ...formData,
+                                                triggerMetaData: value
+                                            });
+                                        } catch (error) {
+                                            console.error('Invalid JSON:', error);
+                                            toast.error('Invalid JSON format. Please enter valid JSON.');
+                                        }
+                                    }}
                                     className="mt-1 font-mono text-sm"
                                     placeholder="Enter JSON data or leave empty"
                                 />
@@ -142,7 +161,7 @@ export default function CreateZapPage() {
                                         />
                                     </div>
 
-                                    <div>
+                                    {/* <div>
                                         <Label htmlFor="actionMetaData">Action Metadata (JSON)</Label>
                                         <Input
                                             id="actionMetaData"
@@ -166,7 +185,7 @@ export default function CreateZapPage() {
                                             className="mt-1 font-mono text-sm"
                                             placeholder="Enter JSON data or leave empty"
                                         />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

@@ -71,8 +71,37 @@ function useZaps() {
                     }
                 });
 
-                const zapsData = response.data?.getAllZaps || [];
-                setZaps(zapsData);
+                try {
+                    // Validate the response data
+                    if (!response.data || typeof response.data !== 'object') {
+                        throw new Error('Invalid response data');
+                    }
+
+                    const zapsData = response.data?.getAllZaps || [];
+                    if (!Array.isArray(zapsData)) {
+                        throw new Error('Expected getAllZaps to be an array');
+                    }
+
+                    // Validate each zap item
+                    const validatedZaps = zapsData.filter((item: Zap) => {
+                        try {
+                            return typeof item === 'object' && 
+                                   item !== null && 
+                                   typeof item.id === 'string' && 
+                                   typeof item.triggerId === 'string' &&
+                                   typeof item.userId === 'number';
+                        } catch (e) {
+                            console.error('Invalid zap item:', item, e);
+                            return false;
+                        }
+                    });
+
+                    setZaps(validatedZaps);
+                } catch (error) {
+                    console.error('Error validating API response:', error);
+                    setZaps([]);
+                    throw error; // Re-throw to be caught by the outer catch block
+                }
             } catch (error) {
                 console.error('Error fetching zaps:', error);
                 if (axios.isAxiosError(error)) {

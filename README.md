@@ -4,7 +4,32 @@
 
 A distributed system for processing and managing Zapier events using Kafka and Prisma. This project consists of multiple microservices that work together to process, track, and manage Zapier webhook events.
 
+## Features
+
+### Zap Management
+- Create, view, and manage Zaps
+- Support for multiple trigger types (Webhook, Schedule, Email)
+- JSON metadata validation for triggers and actions
+- Enhanced error handling for invalid JSON input
+
+### UI Components
+- Modern dashboard interface
+- Search functionality for triggers
+- Form validation for JSON metadata
+- Toast notifications for user feedback
+
+### API Integration
+- RESTful API endpoints
+- WebSocket support for real-time updates
+- JWT authentication
+
 ## Project Structure
+
+- `frontend/`: Next.js frontend application with TypeScript and Tailwind CSS
+- `primary_backend/`: Main backend service with REST API endpoints for managing Zaps
+- `backend/`: Legacy API server (being phased out)
+- `processor/`: Service that processes events from the database and publishes them to Kafka
+- `outbox_processor/`: Service that consumes events from Kafka and processes them
 
 - `primary_backend/`: Main backend service with REST API endpoints for managing Zaps
 - `backend/`: Legacy API server (being phased out)
@@ -66,6 +91,13 @@ cd primary_backend
 bun run dev
 ```
 
+### Frontend
+```bash
+cd frontend
+bun install
+bun run dev
+```
+
 ### Legacy Backend API
 ```bash
 cd backend
@@ -85,6 +117,25 @@ bun run dev
 ```
 
 ## Environment Variables
+
+### Frontend
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_WS_URL=ws://localhost:3001
+```
+
+### Primary Backend
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/zapier?schema=public"
+JWT_SECRET="your-jwt-secret"
+PORT=3001
+```
+
+### Legacy Backend
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/zapier?schema=public"
+PORT=3008
+```
 
 ### Primary Backend
 ```env
